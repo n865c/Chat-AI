@@ -4,17 +4,41 @@ import user from './assets/user.png';
 import loader from './assets/loader.svg'
 import bot from './assets/bot.png';
 import loadingIcon from './assets/loader.svg';
-let arr=[
-  {
-    type:'user',post:"fhyhy"
-  },
-  {   
-    type:"bot",post:"hellooo"
-  },
-]
+// let arr=[
+//   {
+//     type:'user',post:"fhyhy"
+//   },
+//   {   
+//     type:"bot",post:"hellooo"
+//   },
+// ]
 function App() {
   const [input,setInput]=useState("");
-  const [posts,setPosts]=useState(arr);
+  const [posts,setPosts]=useState([]);
+  const onSubmit=()=>{
+    if(input.trim()==="")
+    return;
+    updatePosts(input);
+
+  }
+
+  const updatePosts=(post)=>{
+     setPosts(prevState=>{
+      return[
+        ...prevState,
+        {type:"user",post}
+      ]
+     })
+
+  }
+
+  const onKeyUp=(e)=>{
+    if(e.key==="Enter"||e.which===13)
+    {
+      onSubmit();
+    }
+
+  }
   
   return(
      <main className="chatGPT-app">
@@ -48,8 +72,10 @@ function App() {
         autoFocus
         type="text"
         placeholder='Ask Anything'
-        onChange={()=>{}}/>
-        <div className='send-button'>
+        onChange={(e)=>setInput(e.target.value)}
+        onKeyUp={onKeyUp}
+        />
+        <div className='send-button' onClick={onSubmit}>
           <img src={send}/>
         </div>
       </footer>
